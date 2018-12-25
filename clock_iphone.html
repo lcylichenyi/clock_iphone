@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .outer{
+            width: 500px;
+            height: 500px;
+            background-color: black;
+            border-radius: 40px;
+            position: relative;
+            margin-top: 100px;
+            margin-left: 100px;
+
+        }
+        .inner{
+            width: 440px;
+            height: 440px;
+            background-color: lightgrey;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .pointer{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-100%);
+            transform-origin: center bottom;
+            z-index: 10;
+            border-radius: 10px;
+
+        }
+        .second{
+            background-color: orange;
+            width: 5px;
+            height: 200px;
+            animation: timer 60s linear infinite;
+            z-index: 99;
+        }
+        .minute{
+            background-color: black;
+            width: 6px;
+            height: 200px;
+            animation: timer 3600s linear infinite;
+        }
+        .hour{
+            background-color: black;
+            width: 7px;
+            height: 150px;
+            animation: timer 43200s linear infinite;
+
+        }
+        .circle{
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: black;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        @keyframes timer {
+            from{
+                transform: translate(-50%,-100%) rotateZ(0deg);
+            }
+            to{
+                transform: translate(-50%,-100%) rotateZ(360deg);
+            }
+        }
+        .num{
+            position: absolute;
+            height: 210px;
+            width: 40px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-100%);
+            text-align: center;
+            font-size: 25px;
+            transform-origin: center bottom;
+        }
+        .num1{
+            transform: translate(-50%,-100%) rotateZ(30deg);
+        }
+        .num2{
+            transform: translate(-50%,-100%) rotateZ(60deg);
+        }
+        .num3{
+            transform: translate(-50%,-100%) rotateZ(90deg);
+        }
+        .num4{
+            transform: translate(-50%,-100%) rotateZ(120deg);
+        }
+        .num5{
+            transform: translate(-50%,-100%) rotateZ(150deg);
+        }
+        .num6{
+            transform: translate(-50%,-100%) rotateZ(180deg);
+        }
+        .num7{
+            transform: translate(-50%,-100%) rotateZ(210deg);
+        }
+        .num8{
+            transform: translate(-50%,-100%) rotateZ(240deg);
+        }
+        .num9{
+            transform: translate(-50%,-100%) rotateZ(270deg);
+        }
+        .num10{
+            transform: translate(-50%,-100%) rotateZ(300deg);
+        }
+        .num11{
+            transform: translate(-50%,-100%) rotateZ(330deg);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <div class="inner">
+            <div class="pointer second"></div>
+            <div class="pointer minute"></div>
+            <div class="pointer hour"></div>
+            <div class="circle"></div>
+            <div class="num num12">12</div>
+            <div class="num num1">1</div>
+            <div class="num num2">2</div>
+            <div class="num num3">3</div>
+            <div class="num num4">4</div>
+            <div class="num num5">5</div>
+            <div class="num num6">6</div>
+            <div class="num num7">7</div>
+            <div class="num num8">8</div>
+            <div class="num num9">9</div>
+            <div class="num num10">10</div>
+            <div class="num num11">11</div>
+
+        </div>
+    </div>
+    <div>
+        <h2 style="margin: 100px 100px;">
+            Here I used javascript to try to change the keyframes property. <br />
+            在这里我尝试使用javascript来更改css中已有的keyframes属性，利用的是document.styleSheets[0] 。删除并且重新添加内容。
+        </h2>
+    </div>
+    <script>
+        var myDate = new Date();
+        if (myDate){
+            var css = document.styleSheets[0];
+            css.deleteRule(8);
+
+
+
+            //second指针
+            var second = document.querySelector(".second");
+            var secDeg = parseFloat(myDate.getSeconds()/60 * 360);
+            second.style.animation = 'sectimer 60s linear infinite';
+            var secKeyframes = "@keyframes sectimer {from{transform: translate(-50%,-100%) rotateZ("+secDeg+"deg);}to{transform: translate(-50%,-100%) rotateZ("+(360+secDeg)+"deg);}}";
+            css.insertRule(secKeyframes,8);
+
+            //minute指针
+            var minute = document.querySelector(".minute");
+            var minDeg = parseFloat(myDate.getMinutes()/60 * 360);
+            minute.style.animation = 'mintimer 3600s linear infinite';
+            var minKeyframes = "@keyframes mintimer {from{transform: translate(-50%,-100%) rotateZ("+minDeg+"deg);}to{transform: translate(-50%,-100%) rotateZ("+(360+minDeg)+"deg);}}";
+            css.insertRule(minKeyframes,8);
+
+            //hour指针
+            var currentHour = myDate.getHours() > 12? myDate.getHours() -12 : myDate.getHours();
+            var hour = document.querySelector(".hour");
+            var hourDeg = parseFloat(currentHour/12 * 360);
+            hour.style.animation = 'hourtimer 43200s linear infinite';
+            var hourKeyframes = "@keyframes hourtimer {from{transform: translate(-50%,-100%) rotateZ("+hourDeg+"deg);}to{transform: translate(-50%,-100%) rotateZ("+(360+hourDeg)+"deg);}}";
+            css.insertRule(hourKeyframes,8);
+
+        }
+
+
+    </script>
+</body>
+</html>
